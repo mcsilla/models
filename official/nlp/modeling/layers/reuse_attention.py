@@ -362,7 +362,7 @@ class ReuseMultiHeadAttention(tf.keras.layers.Layer):
       if self._reuse_heads < self._num_heads:
         einsum_equation, bias_axes, output_rank = _build_proj_equation(
             free_dims, bound_dims=1, output_dims=2)
-        self._query_dense = tf.keras.layers.EinsumDense(
+        self._query_dense = tf.keras.layers.experimental.EinsumDense(
             einsum_equation,
             output_shape=_get_output_shape(
                 output_rank - 1,
@@ -375,7 +375,7 @@ class ReuseMultiHeadAttention(tf.keras.layers.Layer):
             **common_kwargs)
         einsum_equation, bias_axes, output_rank = _build_proj_equation(
             self._key_shape.rank - 1, bound_dims=1, output_dims=2)
-        self._key_dense = tf.keras.layers.EinsumDense(
+        self._key_dense = tf.keras.layers.experimental.EinsumDense(
             einsum_equation,
             output_shape=_get_output_shape(
                 output_rank - 1,
@@ -392,7 +392,7 @@ class ReuseMultiHeadAttention(tf.keras.layers.Layer):
       self._value_dense = []
       if self._reuse_heads > 0:
         self._value_dense.append(
-            tf.keras.layers.EinsumDense(
+            tf.keras.layers.experimental.EinsumDense(
                 einsum_equation,
                 output_shape=_get_output_shape(
                     output_rank - 1, [self._reuse_heads, self._value_dim]),
@@ -405,7 +405,7 @@ class ReuseMultiHeadAttention(tf.keras.layers.Layer):
                 **common_kwargs))
       if self._reuse_heads < self._num_heads:
         self._value_dense.append(
-            tf.keras.layers.EinsumDense(
+            tf.keras.layers.experimental.EinsumDense(
                 einsum_equation,
                 output_shape=_get_output_shape(
                     output_rank - 1,
@@ -453,7 +453,7 @@ class ReuseMultiHeadAttention(tf.keras.layers.Layer):
       output_shape = [self._query_shape[-1]]
     einsum_equation, bias_axes, output_rank = _build_proj_equation(
         free_dims, bound_dims=2, output_dims=len(output_shape))
-    return tf.keras.layers.EinsumDense(
+    return tf.keras.layers.experimental.EinsumDense(
         einsum_equation,
         output_shape=_get_output_shape(output_rank - 1, output_shape),
         bias_axes=bias_axes if (use_bias and self._use_bias) else None,

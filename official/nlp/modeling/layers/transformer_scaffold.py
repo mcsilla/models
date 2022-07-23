@@ -205,7 +205,7 @@ class TransformerScaffold(tf.keras.layers.Layer):
             dtype=tf.float32))
 
     if self._feedforward_block is None:
-      self._intermediate_dense = tf.keras.layers.EinsumDense(
+      self._intermediate_dense = tf.keras.layers.experimental.EinsumDense(
           "abc,cd->abd",
           output_shape=(None, self._inner_dim),
           bias_axes="d",
@@ -222,7 +222,7 @@ class TransformerScaffold(tf.keras.layers.Layer):
         policy = tf.float32
       self._intermediate_activation_layer = tf.keras.layers.Activation(
           self._inner_activation, dtype=policy)
-      self._output_dense = tf.keras.layers.EinsumDense(
+      self._output_dense = tf.keras.layers.experimental.EinsumDense(
           "abc,cd->abd",
           output_shape=(None, hidden_size),
           bias_axes="d",

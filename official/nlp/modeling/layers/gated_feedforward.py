@@ -120,7 +120,7 @@ class GatedFeedforward(tf.keras.layers.Layer):
       activation_policy = tf.float32
     for i in range(self._num_blocks):
       self._intermediate_dense.append(
-          tf.keras.layers.EinsumDense(
+          tf.keras.layers.experimental.EinsumDense(
               "abc,cd->abd",
               output_shape=(None, self._inner_dim),
               bias_axes="d",
@@ -135,7 +135,7 @@ class GatedFeedforward(tf.keras.layers.Layer):
               self._inner_activation, dtype=activation_policy))
       if self._use_gate:
         self._gate_dense.append(
-            tf.keras.layers.EinsumDense(
+            tf.keras.layers.experimental.EinsumDense(
                 "abc,cd->abd",
                 output_shape=(None, self._inner_dim),
                 bias_axes="d",
@@ -146,7 +146,7 @@ class GatedFeedforward(tf.keras.layers.Layer):
                     self._bias_initializer),
                 **common_kwargs))
       self._output_dense.append(
-          tf.keras.layers.EinsumDense(
+          tf.keras.layers.experimental.EinsumDense(
               "abc,cd->abd",
               output_shape=(None, hidden_size),
               bias_axes="d",

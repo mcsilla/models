@@ -166,7 +166,7 @@ class TokenDropBertEncoder(tf.keras.layers.Layer):
     # 'hidden_size'.
     self._embedding_projection = None
     if embedding_width != hidden_size:
-      self._embedding_projection = tf.keras.layers.EinsumDense(
+      self._embedding_projection = tf.keras.layers.experimental.EinsumDense(
           '...x,xy->...y',
           output_shape=hidden_size,
           bias_axes='y',

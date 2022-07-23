@@ -144,7 +144,7 @@ class MultiHeadRelativeAttention(tf.keras.layers.MultiHeadAttention):
     with tf.init_scope():
       einsum_equation, _, output_rank = _build_proj_equation(
           key_shape.rank - 1, bound_dims=1, output_dims=2)
-      self._encoding_dense = tf.keras.layers.EinsumDense(
+      self._encoding_dense = tf.keras.layers.experimental.EinsumDense(
           einsum_equation,
           output_shape=_get_output_shape(output_rank - 1,
                                          [self._num_heads, self._key_dim]),
